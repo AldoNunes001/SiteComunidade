@@ -3,6 +3,10 @@
 {% block body %}
     <div class="container">
         <h1>Usuários</h1>
-        {{ lista_usuarios }}
+        <ul>
+            {% for usuario in lista_usuarios %}
+                <li>{{ usuario }}</li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}
