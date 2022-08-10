@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return '''Hello, world!
-            O site está no ar!'''
+    return '''<h1>Hello, world!</h1>
+            <p>O site está no ar!</p>'''
 
 
 @app.route('/contato')
