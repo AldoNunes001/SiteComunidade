@@ -20,5 +20,10 @@ def usuarios():
     return render_template('usuarios.html', lista_usuarios=lista_usuarios)
 
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
