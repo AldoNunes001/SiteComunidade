@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash
-from sitecomunidade import app
+from sitecomunidade import app, database
 from sitecomunidade.forms import FormLogin, FormCriarConta
+from sitecomunidade.models import Usuario
 
 lista_usuarios = ['Lira', 'João', 'Alon', 'Alessandra', 'Amanda']
 
@@ -33,6 +34,10 @@ def login():
 
     if 'botao_submit_criarconta' in request.form:
         if form_criarconta.validate_on_submit():
+            usuario = Usuario(username=form_criarconta.username.data, email=form_criarconta.email_criarconta.data,
+                              senha=form_criarconta.senha.data)
+            database.session.add(usuario)
+            database.session.commit()
             # Criou conta com sucesso
             flash(f'Conta criada com sucesso para o e-mail: {form_criarconta.email_criarconta.data}', 'alert-success')
             return redirect(url_for('home'))
