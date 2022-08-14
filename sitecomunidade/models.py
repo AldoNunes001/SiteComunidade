@@ -1,4 +1,4 @@
-from main import database
+from sitecomunidade import database
 from datetime import datetime
 
 
