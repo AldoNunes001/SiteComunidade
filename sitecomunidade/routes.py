@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
-from sitecomunidade import app, database
+from sitecomunidade import app, database, bcrypt
 from sitecomunidade.forms import FormLogin, FormCriarConta
 from sitecomunidade.models import Usuario
 
@@ -34,8 +34,9 @@ def login():
 
     if 'botao_submit_criarconta' in request.form:
         if form_criarconta.validate_on_submit():
+            senha_cript = bcrypt.generate_password_hash(form_criarconta.senha.data)
             usuario = Usuario(username=form_criarconta.username.data, email=form_criarconta.email_criarconta.data,
-                              senha=form_criarconta.senha.data)
+                              senha=senha_cript)
             database.session.add(usuario)
             database.session.commit()
             # Criou conta com sucesso
