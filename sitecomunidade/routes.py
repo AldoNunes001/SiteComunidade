@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, flash
 from sitecomunidade import app, database, bcrypt
 from sitecomunidade.forms import FormLogin, FormCriarConta
 from sitecomunidade.models import Usuario
-from flask_login import login_user
+from flask_login import login_user, logout_user, current_user
 
 lista_usuarios = ['Lira', 'João', 'Alon', 'Alessandra', 'Amanda']
 
@@ -30,7 +30,7 @@ def login():
     if 'botao_submit_login' in request.form:
         if form_login.validate_on_submit():
             usuario = Usuario.query.filter_by(email=form_login.email_login.data).first()
-            if usuario and bcrypt.check_password_hash(usuario.senha.encode('utf-8'), form_login.senha.data):
+            if usuario and bcrypt.check_password_hash(usuario.senha.encode('utf-8'), form_login.senha.data):  # encode('utf-8')
                 login_user(usuario, remember=form_login.lembrar_dados.data)
                 # Fez login com sucesso
                 flash(f'Login feito com sucesso no e-mail: {form_login.email_login.data}', 'alert-success')
@@ -40,7 +40,7 @@ def login():
 
     if 'botao_submit_criarconta' in request.form:
         if form_criarconta.validate_on_submit():
-            senha_cript = bcrypt.generate_password_hash(form_criarconta.senha.data).decode('utf-8')
+            senha_cript = bcrypt.generate_password_hash(form_criarconta.senha.data).decode('utf-8')  # .decode('utf-8')
             usuario = Usuario(username=form_criarconta.username.data, email=form_criarconta.email_criarconta.data,
                               senha=senha_cript)
             database.session.add(usuario)
@@ -50,3 +50,20 @@ def login():
             return redirect(url_for('home'))
 
     return render_template('login.html', form_login=form_login, form_criarconta=form_criarconta)
+
+
+@app.route('/sair')
+def sair():
+    logout_user()
+    flash(f'Logout feito com sucesso', 'alert-success')
+    return redirect(url_for('home'))
+
+
+@app.route('/perfil')
+def perfil():
+    return render_template('perfil.html')
+
+
+@app.route('/post/criar')
+def criar_post():
+    return render_template('criarpost.html')
