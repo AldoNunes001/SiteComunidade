@@ -3,6 +3,7 @@ from sitecomunidade import app, database, bcrypt
 from sitecomunidade.forms import FormLogin, FormCriarConta
 from sitecomunidade.models import Usuario
 from flask_login import login_user, logout_user, current_user
+from datetime import timedelta
 
 lista_usuarios = ['Lira', 'João', 'Alon', 'Alessandra', 'Amanda']
 
@@ -30,13 +31,21 @@ def login():
     if 'botao_submit_login' in request.form:
         if form_login.validate_on_submit():
             usuario = Usuario.query.filter_by(email=form_login.email_login.data).first()
+
+            # Todas as condições precisam ser específicas. Não consegui com um simples else
             if usuario and bcrypt.check_password_hash(usuario.senha.encode('utf-8'), form_login.senha.data):  # encode('utf-8')
-                login_user(usuario, remember=form_login.lembrar_dados.data)
+                login_user(usuario, remember=form_login.lembrar_dados.data, duration=timedelta(days=365))
                 # Fez login com sucesso
                 flash(f'Login feito com sucesso no e-mail: {form_login.email_login.data}', 'alert-success')
                 return redirect(url_for('home'))
-            else:
-                flash(f'Falha no login. E-mail ou senha incorretos.', 'alert-danger')
+
+            elif not usuario:
+                print('Usuário não encontrado')
+                flash(f'Falha no login. E-mail não cadastrado.', 'alert-danger')
+
+            elif not bcrypt.check_password_hash(usuario.senha.encode('utf-8'), form_login.senha.data):
+                print('Senha incorreta')
+                flash(f'Falha no login. Senha incorreta.', 'alert-danger')
 
     if 'botao_submit_criarconta' in request.form:
         if form_criarconta.validate_on_submit():
