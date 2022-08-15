@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, flash
 from sitecomunidade import app, database, bcrypt
 from sitecomunidade.forms import FormLogin, FormCriarConta
 from sitecomunidade.models import Usuario
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from datetime import timedelta
 
 lista_usuarios = ['Lira', 'João', 'Alon', 'Alessandra', 'Amanda']
@@ -19,6 +19,7 @@ def contato():
 
 
 @app.route('/usuarios')
+@login_required
 def usuarios():
     return render_template('usuarios.html', lista_usuarios=lista_usuarios)
 
@@ -65,6 +66,7 @@ def login():
 
 
 @app.route('/sair')
+@login_required
 def sair():
     logout_user()
     flash(f'Logout feito com sucesso', 'alert-success')
@@ -72,10 +74,12 @@ def sair():
 
 
 @app.route('/perfil')
+@login_required
 def perfil():
     return render_template('perfil.html')
 
 
 @app.route('/post/criar')
+@login_required
 def criar_post():
     return render_template('criarpost.html')
