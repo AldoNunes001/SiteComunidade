@@ -29,10 +29,13 @@ def login():
     form_criarconta = FormCriarConta()
 
     if 'botao_submit_login' in request.form:
+
+        # print(form_login.email_login.data)
         if form_login.validate_on_submit():
             usuario = Usuario.query.filter_by(email=form_login.email_login.data).first()
+            # print(f'Usuário: {usuario}')
 
-            # Todas as condições precisam ser específicas. Não consegui com um simples else
+            # Essas condições às vezes funcionam e às vezes não
             if usuario and bcrypt.check_password_hash(usuario.senha.encode('utf-8'), form_login.senha.data):  # encode('utf-8')
                 login_user(usuario, remember=form_login.lembrar_dados.data, duration=timedelta(days=365))
                 # Fez login com sucesso
@@ -40,11 +43,11 @@ def login():
                 return redirect(url_for('home'))
 
             elif not usuario:
-                print('Usuário não encontrado')
+                # print('Usuário não encontrado')
                 flash(f'Falha no login. E-mail não cadastrado.', 'alert-danger')
 
-            elif not bcrypt.check_password_hash(usuario.senha.encode('utf-8'), form_login.senha.data):
-                print('Senha incorreta')
+            else:
+                # print('Senha incorreta')
                 flash(f'Falha no login. Senha incorreta.', 'alert-danger')
 
     if 'botao_submit_criarconta' in request.form:
