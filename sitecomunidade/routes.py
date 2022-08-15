@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from datetime import timedelta
 
 lista_usuarios = ['Lira', 'João', 'Alon', 'Alessandra', 'Amanda']
+redirects_seguros = ['/', '/contato', '/usuarios', '/login', '/sair', '/perfil', '/post/criar']
 
 
 @app.route('/')
@@ -41,7 +42,12 @@ def login():
                 login_user(usuario, remember=form_login.lembrar_dados.data, duration=timedelta(days=365))
                 # Fez login com sucesso
                 flash(f'Login feito com sucesso no e-mail: {form_login.email_login.data}', 'alert-success')
-                return redirect(url_for('home'))
+
+                par_next = request.args.get('next')
+                if par_next in redirects_seguros:
+                    return redirect(par_next)
+                else:
+                    return redirect(url_for('home'))
 
             elif not usuario:
                 # print('Usuário não encontrado')
@@ -66,7 +72,6 @@ def login():
 
 
 @app.route('/sair')
-@login_required
 def sair():
     logout_user()
     flash(f'Logout feito com sucesso', 'alert-success')
