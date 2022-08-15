@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '67049ce9faacc9f10c352d4bfb70cdbb'  # utilizei o secrets.token_hex(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///comunidade.db?charset=utf8'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(seconds=10)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 
 database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
