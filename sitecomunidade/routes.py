@@ -90,6 +90,14 @@ def perfil():
 def editar_perfil():
     form_editarperfil = FormEditarPerfil()
 
+    if 'botao_submit_editarperfil' in request.form:
+        if form_editarperfil.validate_on_submit():
+            current_user.username = form_editarperfil.username_editarperfil.data
+            current_user.email = form_editarperfil.email_editarperfil.data
+            database.session.commit()
+            flash(f'Perfil atualizado com sucesso', 'alert-success')
+            return redirect(url_for('perfil'))
+
     foto_perfil = url_for('static', filename=f'fotos_perfil/{current_user.foto_perfil}')
     return render_template('editarperfil.html', foto_perfil=foto_perfil, form_editarperfil=form_editarperfil)
 
