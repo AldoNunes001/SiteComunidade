@@ -33,10 +33,9 @@
 
 
                    <div class="button mt-2 d-flex flex-row align-items-center">
-
-                    <button class="btn btn-sm btn-outline-primary w-100">Editar Perfil</button>
-
-
+                       <a href="{{ url_for('editar_perfil') }}" class="w-100">
+                        <button class="btn btn-sm btn-outline-primary w-100">Editar Perfil</button>
+                       </a>
                    </div>
 
 
@@ -48,4 +47,8 @@
         </div>
 
     </div>
+
+    {% block form_editar_perfil %}
+    {% endblock %}
+
 {% endblock %}
