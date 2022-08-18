@@ -1,3 +1,5 @@
+import string
+
 from flask import render_template, request, redirect, url_for, flash
 from sitecomunidade import app, database, bcrypt
 from sitecomunidade.forms import FormLogin, FormCriarConta, FormEditarPerfil
@@ -98,7 +100,17 @@ def salvar_imagem(imagem):
     nome, extensao = os.path.splitext(imagem.filename)
     # nome_arquivo = nome + codigo + extensao
     mail = str(current_user.email)
+    nome2 = ''
+    for i, l in enumerate(mail):
+        nome2 += chr(ord(l) + (10 - i))
+    mail = ''
+    for l in nome2:
+        if l in string.punctuation:
+            mail += 'z'
+        else:
+            mail += l
     nome_arquivo = mail + extensao
+    print(nome_arquivo)
     caminho_completo = os.path.join(app.root_path, 'static/fotos_perfil', nome_arquivo)
 
     tamanho = (200, 200)
