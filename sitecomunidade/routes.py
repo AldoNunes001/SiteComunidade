@@ -4,6 +4,9 @@ from sitecomunidade.forms import FormLogin, FormCriarConta, FormEditarPerfil
 from sitecomunidade.models import Usuario
 from flask_login import login_user, logout_user, current_user, login_required
 from datetime import timedelta
+import secrets
+import os
+from PIL import Image
 
 lista_usuarios = ['Lira', 'João', 'Alon', 'Alessandra', 'Amanda']
 redirects_seguros = ['/', '/contato', '/usuarios', '/login', '/sair', '/perfil', '/post/criar']
@@ -85,6 +88,21 @@ def perfil():
     return render_template('perfil.html', foto_perfil=foto_perfil)
 
 
+def salvar_imagem(imagem):
+    codigo = secrets.token_hex(8)
+    nome, extensao = os.path.splitext(imagem.filename)
+    nome_arquivo = nome + codigo + extensao
+    caminho_completo = os.path.join(app.root_path, 'static/fotos_perfil', nome_arquivo)
+
+    tamanho = (200, 200)
+    imagem_reduzida = Image.open(imagem)
+    imagem_reduzida.thumbnail(tamanho)
+
+    imagem_reduzida.save(caminho_completo)
+
+    return nome_arquivo
+
+
 @app.route('/perfil/editar', methods=['GET', 'POST'])
 @login_required
 def editar_perfil():
@@ -94,6 +112,11 @@ def editar_perfil():
         if form_editarperfil.validate_on_submit():
             current_user.username = form_editarperfil.username_editarperfil.data
             current_user.email = form_editarperfil.email_editarperfil.data
+
+            if form_editarperfil.foto_perfil.data:
+                nome_imagem = salvar_imagem(form_editarperfil.foto_perfil.data)
+                current_user.foto_perfil = nome_imagem
+
             database.session.commit()
             flash(f'Perfil atualizado com sucesso', 'alert-success')
             return redirect(url_for('perfil'))
