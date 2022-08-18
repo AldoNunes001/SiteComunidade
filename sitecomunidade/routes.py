@@ -91,7 +91,7 @@ def perfil():
 
 
 def salvar_imagem(imagem):
-    # Implementei uma versão que utiliza o email como nome de arquivo,
+    ''' # Implementei uma versão que utiliza o email como nome de arquivo,
     # para substituir o arquivo toda vez que trocar a foto e ocupar menos espaço no server.
     # Assim cada usuário só terá uma foto no server.
     # As linhas comentadas são a solução original
@@ -109,7 +109,12 @@ def salvar_imagem(imagem):
             mail += 'z'
         else:
             mail += l
-    nome_arquivo = mail + extensao
+    '''
+
+    codigo = secrets.token_hex(8)
+    nome, extensao = os.path.splitext(imagem.filename)
+    nome_arquivo = codigo + extensao
+    # nome_arquivo = mail + extensao
     print(nome_arquivo)
     caminho_completo = os.path.join(app.root_path, 'static/fotos_perfil', nome_arquivo)
 
