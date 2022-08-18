@@ -133,6 +133,14 @@ def editar_perfil():
             current_user.email = form_editarperfil.email_editarperfil.data
 
             if form_editarperfil.foto_perfil.data:
+                foto_antiga = current_user.foto_perfil
+
+                # Excluir foto antiga
+                if foto_antiga != 'default.jpg':
+                    arquivo_antigo = os.path.join(app.root_path, 'static/fotos_perfil', foto_antiga)
+                    if os.path.isfile(arquivo_antigo):
+                        os.remove(arquivo_antigo)
+
                 nome_imagem = salvar_imagem(form_editarperfil.foto_perfil.data)
                 current_user.foto_perfil = nome_imagem
 
