@@ -33,6 +33,14 @@ class FormEditarPerfil(FlaskForm):
     username_editarperfil = StringField('Nome de Usuário', validators=[DataRequired()])
     email_editarperfil = StringField('E-mail', validators=[DataRequired(), Email()])
     foto_perfil = FileField('Foto de Perfil', validators=[FileAllowed(['jpg', 'png'])])
+    curso_excel = BooleanField('Excel')
+    curso_powerbi = BooleanField('PowerBI')
+    curso_python = BooleanField('Python')
+    curso_htmlcss = BooleanField('HTML/CSS')
+    curso_javascript = BooleanField('Javascript')
+    curso_sql = BooleanField('SQL')
+    curso_cienciadedados = BooleanField('Ciência de Dados')
+
     botao_submit_editarperfil = SubmitField('Salvar')
 
     def validate_email_editarperfil(self, email_editarperfil):
