@@ -167,6 +167,11 @@ def editar_perfil():
         form_editarperfil.username_editarperfil.data = current_user.username
         form_editarperfil.email_editarperfil.data = current_user.email
 
+        # Utilizei essa lógica para carregar os dados de cursos na atualização de perfil
+        for campo in form_editarperfil:
+            if campo.name.startswith('curso_') and campo.name[6:9] in ' '.join(current_user.cursos.lower().replace('ê', 'e').split(';')):
+                campo.data = True
+
     foto_perfil = url_for('static', filename=f'fotos_perfil/{current_user.foto_perfil}')
     return render_template('editarperfil.html', foto_perfil=foto_perfil, form_editarperfil=form_editarperfil)
 
