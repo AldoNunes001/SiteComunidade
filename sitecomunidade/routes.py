@@ -169,7 +169,7 @@ def editar_perfil():
 
         # Utilizei essa lógica para carregar os dados de cursos na atualização de perfil
         for campo in form_editarperfil:
-            if campo.name.startswith('curso_') and campo.name[6:9] in ' '.join(current_user.cursos.lower().replace('ê', 'e').split(';')):
+            if campo.name.startswith('curso_') and campo.label.text in current_user.cursos:
                 campo.data = True
 
     foto_perfil = url_for('static', filename=f'fotos_perfil/{current_user.foto_perfil}')
