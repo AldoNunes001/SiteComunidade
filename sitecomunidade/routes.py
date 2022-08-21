@@ -70,6 +70,7 @@ def login():
             database.session.add(usuario)
             database.session.commit()
             # Criou conta com sucesso
+            login_user(usuario, remember=form_login.lembrar_dados.data, duration=timedelta(days=365))
             flash(f'Conta criada com sucesso para o e-mail: {form_criarconta.email_criarconta.data}', 'alert-success')
             return redirect(url_for('home'))
 
