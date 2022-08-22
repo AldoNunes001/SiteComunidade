@@ -2,8 +2,8 @@ import string
 
 from flask import render_template, request, redirect, url_for, flash
 from sitecomunidade import app, database, bcrypt
-from sitecomunidade.forms import FormLogin, FormCriarConta, FormEditarPerfil
-from sitecomunidade.models import Usuario
+from sitecomunidade.forms import FormLogin, FormCriarConta, FormEditarPerfil, FormCriarPost
+from sitecomunidade.models import Usuario, Post
 from flask_login import login_user, logout_user, current_user, login_required
 from datetime import timedelta
 import secrets
@@ -178,7 +178,17 @@ def editar_perfil():
     return render_template('editarperfil.html', foto_perfil=foto_perfil, form_editarperfil=form_editarperfil)
 
 
-@app.route('/post/criar')
+@app.route('/post/criar', methods=['GET', 'POST'])
 @login_required
 def criar_post():
-    return render_template('criarpost.html')
+    form_criarpost = FormCriarPost()
+
+    if 'botao_submit_criarpost' in request.form:
+        if form_criarpost.validate_on_submit():
+            post = Post(autor=current_user, titulo=form_criarpost.titulo.data, corpo=form_criarpost.corpo.data)
+            database.session.add(post)
+            database.session.commit()
+            flash('Post criado com sucesso', 'alert-success')
+            return redirect(url_for('home'))
+
+    return render_template('criarpost.html', form_criarpost=form_criarpost)
