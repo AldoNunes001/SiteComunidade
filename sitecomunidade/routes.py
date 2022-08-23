@@ -16,7 +16,8 @@ redirects_seguros = ['/', '/contato', '/usuarios', '/login', '/sair', '/perfil',
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    posts = Post.query.all()
+    return render_template('home.html', posts=posts)
 
 
 @app.route('/contato')

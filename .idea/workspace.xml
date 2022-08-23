@@ -4,9 +4,9 @@
     <list default="true" id="dbcc7626-02e5-4195-9e69-f2cc7a9351e0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sitecomunidade/comunidade.db" beforeDir="false" afterPath="$PROJECT_DIR$/sitecomunidade/comunidade.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sitecomunidade/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/sitecomunidade/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sitecomunidade/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/sitecomunidade/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sitecomunidade/templates/criarpost.html" beforeDir="false" afterPath="$PROJECT_DIR$/sitecomunidade/templates/criarpost.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sitecomunidade/static/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/sitecomunidade/static/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sitecomunidade/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/sitecomunidade/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
