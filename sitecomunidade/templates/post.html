@@ -97,7 +97,8 @@
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <form method="POST" action="{{ url_for('excluir_post', post_id=post.id) }}">
+              <form id="form_excluirpost" method="POST" action="{{ url_for('excluir_post', post_id=post.id) }}">
+                {{ form_editarpost.csrf_token }}
                 <button type="submit" class="btn btn-danger">Excluir Post</button>
               </form>
           </div>
